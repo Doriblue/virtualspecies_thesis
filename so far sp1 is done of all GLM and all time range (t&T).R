@@ -67,7 +67,6 @@ plot(Pred.s1t1, main= "Occurence Probability from 1960-1979 of Species 1 (s1_t1)
 
 
 
-
 ##s1_t2
 #extract PA points, then exchange it into geographical vari by giving it coordinates and crs
 PresAbs.s1t2=s1_t2$sample.points[, c( "x", "y", "Observed")]
@@ -182,3 +181,77 @@ Pred.s1T3<- getPreds(preds, models=Model.s1T3$models, id.col = NULL, Y = FALSE, 
 
 crs(Pred.s1T3) <- crs(envi)
 plot(Pred.s1T3, main= "Occurence Probability from 1960 to 2020 of Species 1 (s1_T3) by GLM")
+
+
+###########GAM####
+
+## newdata for prediction
+
+preds <- as.data.frame(envi) %>%drop_na() #Predictors[[myRandNum]] should be envi
+
+predsXY <- as.data.frame(envi, xy=T) %>%drop_na()
+
+###Non-overlapping time scale
+
+## s1_t1
+form_gam_s1t1 <- as.formula(paste0(names(modSpecies.s1t1)[1], "~", paste0("s(", names(modSpecies.s1t1)[2:4], ")", collapse = "+")))
+gam.s1t1 <- gam(form_gam_s1t1, family = binomial, data = modSpecies.s1t1)
+prediction.s1t1<- predict(gam.s1t1, newdata = preds, type = "response")
+df.pred.s1t1 <- data.frame(Pred=prediction.s1t1)
+prediction.s1t1 <- data.frame(predsXY[,1:2], df.pred.s1t1$Pred)
+
+Pred.gam.s1t1 <- rasterFromXYZ(prediction.s1t1, crs="+proj=longlat +datum=WGS84 +no_defs")
+plot(Pred.gam.s1t1, main=" Occurence Probability from 1960 to 1979 of Species 1 (s1_t1) by GAM")
+
+## s1_t2
+form_gam_s1t2 <- as.formula(paste0(names(modSpecies.s1t2)[1], "~", paste0("s(", names(modSpecies.s1t2)[2:4], ")", collapse = "+")))
+gam.s1t2 <- gam(form_gam_s1t2, family = binomial, data = modSpecies.s1t2)
+prediction.s1t2<- predict(gam.s1t2, newdata = preds, type = "response")
+df.pred.s1t2 <- data.frame(Pred=prediction.s1t2)
+prediction.s1t2 <- data.frame(predsXY[,1:2], df.pred.s1t2$Pred)
+
+Pred.gam.s1t2 <- rasterFromXYZ(prediction.s1t2, crs="+proj=longlat +datum=WGS84 +no_defs")
+plot(Pred.gam.s1t2, main=" Occurence Probability from 1980 to 1999 of Species 1 (s1_t2) by GAM")
+
+## s1_t3
+form_gam_s1t3 <- as.formula(paste0(names(modSpecies.s1t3)[1], "~", paste0("s(", names(modSpecies.s1t3)[2:4], ")", collapse = "+")))
+gam.s1t3 <- gam(form_gam_s1t3, family = binomial, data = modSpecies.s1t3)
+prediction.s1t3<- predict(gam.s1t3, newdata = preds, type = "response")
+df.pred.s1t3 <- data.frame(Pred=prediction.s1t3)
+prediction.s1t3 <- data.frame(predsXY[,1:2], df.pred.s1t3$Pred)
+
+Pred.gam.s1t3 <- rasterFromXYZ(prediction.s1t3, crs="+proj=longlat +datum=WGS84 +no_defs")
+plot(Pred.gam.s1t3, main=" Occurence Probability from 2000 to 2020 of Species 1 (s1_t3) by GAM")
+
+
+###overlapping timescale###
+
+## s1_T1
+form_gam_s1T1 <- as.formula(paste0(names(modSpecies.s1T1)[1], "~", paste0("s(", names(modSpecies.s1T1)[2:4], ")", collapse = "+")))
+gam.s1T1 <- gam(form_gam_s1T1, family = binomial, data = modSpecies.s1T1)
+prediction.s1T1<- predict(gam.s1T1, newdata = preds, type = "response")
+df.pred.s1T1 <- data.frame(Pred=prediction.s1T1)
+prediction.s1T1 <- data.frame(predsXY[,1:2], df.pred.s1T1$Pred)
+
+Pred.gam.s1T1 <- rasterFromXYZ(prediction.s1T1, crs="+proj=longlat +datum=WGS84 +no_defs")
+plot(Pred.gam.s1T1, main=" Occurence Probability from 1960 to 1979 of Species 1 (s1_T1) by GAM")
+
+## s1_t2
+form_gam_s1T2 <- as.formula(paste0(names(modSpecies.s1T2)[1], "~", paste0("s(", names(modSpecies.s1T2)[2:4], ")", collapse = "+")))
+gam.s1T2 <- gam(form_gam_s1T2, family = binomial, data = modSpecies.s1T2)
+prediction.s1T2<- predict(gam.s1T2, newdata = preds, type = "response")
+df.pred.s1T2 <- data.frame(Pred=prediction.s1T2)
+prediction.s1T2 <- data.frame(predsXY[,1:2], df.pred.s1T2$Pred)
+
+Pred.gam.s1T2 <- rasterFromXYZ(prediction.s1T2, crs="+proj=longlat +datum=WGS84 +no_defs")
+plot(Pred.gam.s1T2, main=" Occurence Probability from 1960 to 1999 of Species 1 (s1_T2) by GAM")
+
+## s1_T3
+form_gam_s1T3 <- as.formula(paste0(names(modSpecies.s1T3)[1], "~", paste0("s(", names(modSpecies.s1T3)[2:4], ")", collapse = "+")))
+gam.s1T3 <- gam(form_gam_s1T3, family = binomial, data = modSpecies.s1T3)
+prediction.s1T3<- predict(gam.s1T3, newdata = preds, type = "response")
+df.pred.s1T3 <- data.frame(Pred=prediction.s1T3)
+prediction.s1T3 <- data.frame(predsXY[,1:2], df.pred.s1T3$Pred)
+
+Pred.gam.s1T3 <- rasterFromXYZ(prediction.s1T3, crs="+proj=longlat +datum=WGS84 +no_defs")
+plot(Pred.gam.s1T3, main=" Occurence Probability from 1960 to 2020 of Species 1 (s1_T3) by GAM")
