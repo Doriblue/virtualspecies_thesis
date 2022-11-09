@@ -40,7 +40,10 @@ s1_t1 <- sampleOccurrences(s1_pa,n = 564,type = "presence-absence", extract.prob
 s1_t2 <- sampleOccurrences(s1_pa,n = 669,type = "presence-absence", extract.probability = TRUE,plot = F)
 s1_t3 <- sampleOccurrences(s1_pa,n = 6801,type = "presence-absence", extract.probability = TRUE,plot = F)
 
-####GLM####
+
+
+
+############GLM############
 ###non overlapping time scale (t)
 ##s1_t1
 #extract PA points, then exchange it into geographical vari by giving it coordinates and crs
@@ -183,7 +186,7 @@ crs(Pred.s1T3) <- crs(envi)
 plot(Pred.s1T3, main= "Occurence Probability from 1960 to 2020 of Species 1 (s1_T3) by GLM")
 
 
-###########GAM####
+###########GAM############
 
 ## newdata for prediction
 
@@ -255,3 +258,95 @@ prediction.s1T3 <- data.frame(predsXY[,1:2], df.pred.s1T3$Pred)
 
 Pred.gam.s1T3 <- rasterFromXYZ(prediction.s1T3, crs="+proj=longlat +datum=WGS84 +no_defs")
 plot(Pred.gam.s1T3, main=" Occurence Probability from 1960 to 2020 of Species 1 (s1_T3) by GAM")
+
+
+
+
+
+#########Random Forest#############
+
+###Non-overlapping (t)
+
+#s1_t1
+rf.s1t1<-ranger(modSpecies.s1t1$pres ~., data= modSpecies.s1t1, importance='impurity') 
+Pred.rf.s1t1<- predict(
+  rf.s1t1,
+  data =preds,
+  predict.all = FALSE,
+  num.trees = rf.s1t1$num.trees)
+
+prediction.rf.s1t1 <- data.frame(predsXY[,1:2], Pred.rf.s1t1$predictions)
+prediction.rf.s1t1$Pred.rf.s1t1.predictions[ prediction.rf.s1t1$Pred.predictions == 1] <- 1 - 2.2e-16  #so that the probability is not 100% (too arrogant) but a smaller amount that is the most significant close to 1
+Pred.rf.s1t1 <- rasterFromXYZ(prediction.rf.s1t1, crs="+proj=longlat +datum=WGS84 +no_defs")
+plot(Pred.rf.s1t1, main= " Occurence Probability from 1960-1979 of Species 1 (s1_t1) by Random Forest")
+
+
+#s1_t2
+rf.s1t2<-ranger(modSpecies.s1t2$pres ~., data= modSpecies.s1t2, importance='impurity') 
+Pred.rf.s1t2<- predict(
+  rf.s1t2,
+  data =preds,
+  predict.all = FALSE,
+  num.trees = rf.s1t2$num.trees)
+
+prediction.rf.s1t2 <- data.frame(predsXY[,1:2], Pred.rf.s1t2$predictions)
+prediction.rf.s1t2$Pred.rf.s1t2.predictions[ prediction.rf.s1t2$Pred.predictions == 1] <- 1 - 2.2e-16 
+Pred.rf.s1t2 <- rasterFromXYZ(prediction.rf.s1t2, crs="+proj=longlat +datum=WGS84 +no_defs")
+plot(Pred.rf.s1t2, main= " Occurence Probability from 1980-1999 of Species 1 (s1_t2) by Random Forest")
+
+#s1_t3
+rf.s1t3<-ranger(modSpecies.s1t3$pres ~., data= modSpecies.s1t3, importance='impurity') 
+Pred.rf.s1t3<- predict(
+  rf.s1t3,
+  data =preds,
+  predict.all = FALSE,
+  num.trees = rf.s1t3$num.trees)
+
+prediction.rf.s1t3 <- data.frame(predsXY[,1:2], Pred.rf.s1t3$predictions)
+prediction.rf.s1t3$Pred.rf.s1t3.predictions[ prediction.rf.s1t3$Pred.predictions == 1] <- 1 - 2.2e-16 
+Pred.rf.s1t3 <- rasterFromXYZ(prediction.rf.s1t3, crs="+proj=longlat +datum=WGS84 +no_defs")
+plot(Pred.rf.s1t3, main= " Occurence Probability from 2000-2020 of Species 1 (s1_t3) by Random Forest")
+
+
+
+## overlapping timescale (T)
+#s1_T1
+rf.s1T1<-ranger(modSpecies.s1T1$pres ~., data= modSpecies.s1T1, importance='impurity') 
+Pred.rf.s1T1<- predict(
+  rf.s1T1,
+  data =preds,
+  predict.all = FALSE,
+  num.trees = rf.s1T1$num.trees)
+
+prediction.rf.s1T1 <- data.frame(predsXY[,1:2], Pred.rf.s1T1$predictions)
+prediction.rf.s1T1$Pred.rf.s1T1.predictions[ prediction.rf.s1T1$Pred.predictions == 1] <- 1 - 2.2e-16  #so that the probability is not 100% (too arrogant) but a smaller amount that is the most significant close to 1
+Pred.rf.s1T1 <- rasterFromXYZ(prediction.rf.s1T1, crs="+proj=longlat +datum=WGS84 +no_defs")
+plot(Pred.rf.s1T1, main= " Occurence Probability from 1960-1980 of Species 1 (s1_T1) by Random Forest")
+
+
+#s1_T2
+rf.s1T2<-ranger(modSpecies.s1T2$pres ~., data= modSpecies.s1T2, importance='impurity') 
+Pred.rf.s1T2<- predict(
+  rf.s1T2,
+  data =preds,
+  predict.all = FALSE,
+  num.trees = rf.s1T2$num.trees)
+
+prediction.rf.s1T2 <- data.frame(predsXY[,1:2], Pred.rf.s1T2$predictions)
+prediction.rf.s1T2$Pred.rf.s1T2.predictions[ prediction.rf.s1T2$Pred.predictions == 1] <- 1 - 2.2e-16 
+Pred.rf.s1T2 <- rasterFromXYZ(prediction.rf.s1T2, crs="+proj=longlat +datum=WGS84 +no_defs")
+plot(Pred.rf.s1T2, main= " Occurence Probability from 1960-2000 of Species 1 (s1_T2) by Random Forest")
+
+#s1_T3
+rf.s1T3<-ranger(modSpecies.s1T3$pres ~., data= modSpecies.s1T3, importance='impurity') 
+Pred.rf.s1T3<- predict(
+  rf.s1T3,
+  data =preds,
+  predict.all = FALSE,
+  num.trees = rf.s1T3$num.trees)
+
+prediction.rf.s1T3 <- data.frame(predsXY[,1:2], Pred.rf.s1T3$predictions)
+prediction.rf.s1T3$Pred.rf.s1T3.predictions[ prediction.rf.s1T3$Pred.predictions == 1] <- 1 - 2.2e-16 
+Pred.rf.s1T3 <- rasterFromXYZ(prediction.rf.s1T3, crs="+proj=longlat +datum=WGS84 +no_defs")
+plot(Pred.rf.s1T3, main= " Occurence Probability from 1960-2020 of Species 1 (s1_T3) by Random Forest")
+
