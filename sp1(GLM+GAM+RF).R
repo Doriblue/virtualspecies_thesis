@@ -1,22 +1,3 @@
-####SET UP###
-library(virtualspecies)
-library(rnaturalearth)
-library(tidyverse)
-temp<-raster("wc2.1_10m_bio_1.tif")
-preci<- raster("wc2.1_10m_bio_12.tif")
-elev<- raster("wc2.1_10m_elev.tif")
-Asia<- ne_countries(scale="medium", type="map_units", returnclass="sf", country=c('Malaysia','Thailand','Laos','Cambodia','Vietnam'))
-study_area<- select(Asia, geometry, name_long)
-elev<- mask(elev,study_area)
-temp<- mask(temp,study_area)
-preci<- mask(preci,study_area)
-
-envi<-stack(elev, temp, preci)
-envi<- crop(envi, ex)
-names(envi)<- c("elev", "temp", "preci")
-plot(envi)
-
-
 
 
 ####Species1: Gấu chó####
