@@ -19,4 +19,3 @@ ex<- extent(97.37393, 119.2663, 0.8619629, 23.34521)
 envi<- crop(envi, ex)
 names(envi)<- c("elev", "temp", "preci")
 plot(envi)
-
