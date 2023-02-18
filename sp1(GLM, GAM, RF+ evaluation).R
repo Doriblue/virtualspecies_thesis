@@ -331,3 +331,117 @@ prediction.rf.s1T3$Pred.rf.s1T3.predictions[ prediction.rf.s1T3$Pred.predictions
 Pred.rf.s1T3 <- rasterFromXYZ(prediction.rf.s1T3, crs="+proj=longlat +datum=WGS84 +no_defs")
 plot(Pred.rf.s1T3, main= " Occurence Probability from 1960-2020 of Species 1 (s1_T3) by Random Forest")
 
+#############EVALUATION PERFORMANCE##########
+auc.gam.s1.t1<- AUCFunzGAM(modSpecies.s1t1)
+auc.gam.s1.t2<- AUCFunzGAM(modSpecies.s1t2)
+auc.gam.s1.t3<- AUCFunzGAM(modSpecies.s1t3)
+
+auc.gam.s1.T1<- AUCFunzGAM(modSpecies.s1T1)
+auc.gam.s1.T2<- AUCFunzGAM(modSpecies.s1T2)
+auc.gam.s1.T3<- AUCFunzGAM(modSpecies.s1T3)
+
+
+
+auc.glm.s1.t1<- AUCFunzGLM(modSpecies.s1t1)
+auc.glm.s1.t2<- AUCFunzGLM(modSpecies.s1t2)
+auc.glm.s1.t3<- AUCFunzGLM(modSpecies.s1t3)
+
+auc.glm.s1.T1<- AUCFunzGLM(modSpecies.s1T1)
+auc.glm.s1.T2<- AUCFunzGLM(modSpecies.s1T2)
+auc.glm.s1.T3<- AUCFunzGLM(modSpecies.s1T3)
+
+
+
+auc.rf.s1.t1<- AUCFunzRF(modSpecies.s1t1)
+auc.rf.s1.t2<- AUCFunzRF(modSpecies.s1t2)
+auc.rf.s1.t3<- AUCFunzRF(modSpecies.s1t3)
+
+auc.rf.s1.T1<- AUCFunzRF(modSpecies.s1T1)
+auc.rf.s1.T2<- AUCFunzRF(modSpecies.s1T2)
+auc.rf.s1.T3<- AUCFunzRF(modSpecies.s1T3)
+
+
+
+tss.glm.s1.t1<- TSSFunzGLM(modSpecies.s1t1)
+tss.glm.s1.t2<- TSSFunzGLM(modSpecies.s1t2)
+tss.glm.s1.t3<- TSSFunzGLM(modSpecies.s1t3)
+
+tss.glm.s1.T1<- TSSFunzGLM(modSpecies.s1T1)
+tss.glm.s1.T2<- TSSFunzGLM(modSpecies.s1T2)
+tss.glm.s1.T3<- TSSFunzGLM(modSpecies.s1T3)
+
+
+
+tss.gam.s1.t1<- TSSFunzGAM(modSpecies.s1t1)
+tss.gam.s1.t2<- TSSFunzGAM(modSpecies.s1t2)
+tss.gam.s1.t3<- TSSFunzGAM(modSpecies.s1t3)
+
+tss.gam.s1.T1<- TSSFunzGAM(modSpecies.s1T1)
+tss.gam.s1.T2<- TSSFunzGAM(modSpecies.s1T2)
+tss.gam.s1.T3<- TSSFunzGAM(modSpecies.s1T3)
+
+
+
+tss.rf.s1.t1<- TSSFunzRF(modSpecies.s1t1)
+tss.rf.s1.t2<- TSSFunzRF(modSpecies.s1t2)
+tss.rf.s1.t3<- TSSFunzRF(modSpecies.s1t3)
+
+tss.rf.s1.T1<- TSSFunzRF(modSpecies.s1T1)
+tss.rf.s1.T2<- TSSFunzRF(modSpecies.s1T2)
+tss.rf.s1.T3<- TSSFunzRF(modSpecies.s1T3)
+
+
+
+boyce.glm.s1.t1<- BoyceGLM(modSpecies.s1t1)
+boyce.glm.s1.t2<- BoyceGLM(modSpecies.s1t2)
+boyce.glm.s1.t3<- BoyceGLM(modSpecies.s1t3)
+
+boyce.glm.s1.T1<- BoyceGLM(modSpecies.s1T1)
+boyce.glm.s1.T2<- BoyceGLM(modSpecies.s1T2)
+boyce.glm.s1.T3<- BoyceGLM(modSpecies.s1T3)
+
+
+boyce.gam.s1.t1<- BoyceGAM(modSpecies.s1t1)
+boyce.gam.s1.t2<- BoyceGAM(modSpecies.s1t2)
+boyce.gam.s1.t3<- BoyceGAM(modSpecies.s1t3)
+
+boyce.gam.s1.T1<- BoyceGAM(modSpecies.s1T1)
+boyce.gam.s1.T2<- BoyceGAM(modSpecies.s1T2)
+boyce.gam.s1.T3<- BoyceGAM(modSpecies.s1T3)
+
+
+boyce.rf.s1.t1<- BoyceRF(modSpecies.s1t1)
+boyce.rf.s1.t2<- BoyceRF(modSpecies.s1t2)
+boyce.rf.s1.t3<- BoyceRF(modSpecies.s1t3)
+
+boyce.rf.s1.T1<- BoyceRF(modSpecies.s1T1)
+boyce.rf.s1.T2<- BoyceRF(modSpecies.s1T2)
+boyce.rf.s1.T3<- BoyceRF(modSpecies.s1T3)
+
+
+
+#########Evaluation####
+algorithm<- rep(c("GAM", "GLM", "RF"), each=6)
+temporal_setting<-rep(c("t1", "t2", "t3", 'T1', "T2", "T3"), times = 3)
+AUC <- c(auc.gam.s1.t1,auc.gam.s1.T1, auc.gam.s1.t2, auc.gam.s1.T2, auc.gam.s1.t3, auc.gam.s1.T3,
+         auc.glm.s1.t1,auc.glm.s1.T1, auc.glm.s1.t2, auc.glm.s1.T2, auc.glm.s1.t3, auc.glm.s1.T3,
+         auc.rf.s1.t1,auc.rf.s1.T1, auc.rf.s1.t2, auc.rf.s1.T2, auc.rf.s1.t3, auc.rf.s1.T3)
+TSS<- c(tss.gam.s1.t1, tss.gam.s1.T1, tss.gam.s1.t2, tss.gam.s1.T2, tss.gam.s1.t3, tss.gam.s1.T3,
+        tss.glm.s1.t1, tss.glm.s1.T1, tss.glm.s1.t2, tss.glm.s1.T2, tss.glm.s1.t3, tss.glm.s1.T3,
+        tss.rf.s1.t1, tss.rf.s1.T1, tss.rf.s1.t2, tss.rf.s1.T2, tss.rf.s1.t3, tss.rf.s1.T3)
+Boyce<- c(boyce.gam.s1.t1, boyce.gam.s1.T1, boyce.gam.s1.t2, boyce.gam.s1.T2, boyce.gam.s1.t3, boyce.gam.s1.T3,
+          boyce.glm.s1.t1, boyce.glm.s1.T1, boyce.glm.s1.t2, boyce.glm.s1.T2, boyce.glm.s1.t3, boyce.glm.s1.T3,
+          boyce.rf.s1.t1, boyce.rf.s1.T1, boyce.rf.s1.t2, boyce.rf.s1.T2, boyce.rf.s1.t3, boyce.rf.s1.T3)
+perf_df <- data.frame(algorithm, temporal_setting, AUC, TSS, Boyce)
+
+melted_perf <- perf_df %>% pivot_longer(cols = c(AUC, TSS, Boyce), names_to = "metric", values_to = "value")
+
+ggplot(melted_perf, aes(x = algorithm, y = value, fill = metric)) +
+       geom_boxplot() +
+       facet_wrap(~metric, scales = "free_y", ncol = 1) +
+       labs(title = "Performance of SDM Algorithms", x = "Algorithms", y = "Performance") +
+       scale_fill_manual(values = c("blue", "red", "green")) +
+       theme_minimal() 
+
+
+
