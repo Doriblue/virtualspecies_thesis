@@ -1,4 +1,6 @@
-#######Virtual Species 1##########
+################################################################################################
+################################Virtual Species 1###############################################
+################################################################################################
 para_s1<- formatFunctions(temp=c(fun='dnorm', mean = 25, sd = 5),
                           preci=c(fun='dnorm', mean =2500, sd=1500),
                           elev= c(fun='dnorm', mean=1000, sd=1000))
@@ -129,25 +131,6 @@ plot(Pred.glm.s1T3, main= "s1_T3 by GLM")
 
 
 ####GAM####
-###building function for GAM model with train/test split
-GAM_sp <- function(x,TrainValue = 0.8, TestValue = 0.2) {
-  library(groupdata2)
-  library(ROCR)
-  
-  set.seed(999)
-  inds <- partition(x, p = c(train = TrainValue, test = TestValue))
-  train <- as.data.frame(inds[1])
-  test <- as.data.frame(inds[2])
-  validation<-test
-  training<-train
-  sp_cols <- 1
-  pred_cols <- 2:ncol(training)
-  names(training)[sp_cols]
-  names(training)[pred_cols]
-  form_gam <- as.formula(paste0(names(training)[sp_cols], "~", paste0("s(", names(training)[pred_cols], ")", collapse = "+")))
-  Model <- gam(form_gam, family = binomial, data = training)
-  return(Model)
-}
 ## newdata for prediction
 
 preds <- as.data.frame(envi) %>%drop_na() #Predictors[[myRandNum]] should be envi
@@ -213,22 +196,6 @@ Pred.gam.s1T3 <- rasterFromXYZ(prediction.gam.s1T3, crs="+proj=longlat +datum=WG
 plot(Pred.gam.s1T3, main=" s1_T3 by GAM")
 
 #####Random Forest####
-
-##a function for ranger split data
-ranger_sp <- function(x,TrainValue = 0.8, TestValue = 0.2) {
-  library(groupdata2)
-  library(ROCR)
-  
-  set.seed(999)
-  inds <- partition(x, p = c(train = TrainValue, test = TestValue))
-  train <- as.data.frame(inds[1])
-  test <- as.data.frame(inds[2])
-  validation<-test
-  training<-train
-  
-  Model<-ranger(training$pres ~., data= training, importance='impurity')
-  return(Model)
-  }
 ###Non-overlapping (t)
 
 #s1_t1
@@ -437,9 +404,12 @@ ggplot(melted_perf, aes(x = algorithm, y = value, color = temporal_setting, shap
   theme_minimal()+
   theme(panel.border = element_rect(color = "black", fill = NA),
         panel.background = element_rect(fill = "white"))
-########################################################        
-#################VIRTUAL SPECIES 2######################
-########################################################
+        
+        
+        
+################################################################################################
+################################Virtual Species 2###############################################
+################################################################################################
 para_s2<- formatFunctions(temp=c(fun='dnorm', mean = 27, sd = 5),
                           preci=c(fun='dnorm', mean =2500, sd=1500),
                           elev= c(fun='dnorm', mean=750, sd=750))
