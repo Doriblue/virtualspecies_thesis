@@ -30,3 +30,36 @@ envi<- crop(envi_stack, ex)
 names(envi)<- c("elev", "temp", "preci")
 plot(envi)
 
+
+
+####Creating functions for GAM and RF calibration with split train/test dataset
+GAM_sp <- function(x,TrainValue = 0.8, TestValue = 0.2) {
+  library(groupdata2)
+  library(ROCR)
+  set.seed(999)
+  inds <- partition(x, p = c(train = TrainValue, test = TestValue))
+  train <- as.data.frame(inds[1])
+  test <- as.data.frame(inds[2])
+  validation<-test
+  training<-train
+  sp_cols <- 1
+  pred_cols <- 2:ncol(training)
+  names(training)[sp_cols]
+  names(training)[pred_cols]
+  form_gam <- as.formula(paste0(names(training)[sp_cols], "~", paste0("s(", names(training)[pred_cols], ")", collapse = "+")))
+  Model <- gam(form_gam, family = binomial, data = training)
+  return(Model)
+}
+
+ranger_sp <- function(x,TrainValue = 0.8, TestValue = 0.2) {
+  library(groupdata2)
+  library(ROCR)
+  set.seed(999)
+  inds <- partition(x, p = c(train = TrainValue, test = TestValue))
+  train <- as.data.frame(inds[1])
+  test <- as.data.frame(inds[2])
+  validation<-test
+  training<-train
+  Model<-ranger(training$pres ~., data= training, importance='impurity')
+  return(Model)
+  }
