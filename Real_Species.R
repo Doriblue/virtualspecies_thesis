@@ -5,7 +5,7 @@
 ####RS1_t1/T1####
 Rs1t1_GBIF <- read_csv("GBIF data/cleaned-data/s1_t1_T1.csv")
 Rs1t1_loca<- data.frame(Rs1t1_GBIF$occurrenceStatus, Rs1t1_GBIF$decimalLongitude, Rs1t1_GBIF$decimalLatitude)
-Rs1t1_loca$Rs1t1_GBIF.occurrenceStatus<- decostand(Rs1t1_loca$Rs1t1_GBIF.occurrenceStatus, method="pa")
+Rs1t1_loca$Rs1t1_GBIF.occurrenceStatus<- decostand(Rs1t1_loca$Rs1t1_GBIF.occurrenceStatus, method="pa") ######## ELISA: I don't understand why you used decostand to create absence. Actually BIOMOD_FormatingData is the function designate to create pseudo absence from presence 
 colnames(Rs1t1_loca)<- c("Observed", "x", "y")
 myRespXY.s1t1 <- Rs1t1_loca[, c('x', 'y')]
 
