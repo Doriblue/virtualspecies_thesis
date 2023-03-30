@@ -12,7 +12,7 @@ s1_suit<-plotSuitabilityToProba(s1_pa)
 s1_res<-plotResponse(s1_pa)
 
 #T=sum, overlap
-s1_T1 <- sampleOccurrences(s1_pa,n = 427,type = "presence-absence", extract.probability = TRUE,plot = F,replacement = T, sample.prevalence = 0.25)
+s1_T1 <- sampleOccurrences(s1_pa,n = 427,type = "presence-absence", extract.probability = TRUE,plot = F,replacement = T, sample.prevalence = 0.25) ### ELISA: if n = P + PA and sample prevalence = P/n then sample prevalence should have every time a different value because P at each time range changes
 s1_T2 <- sampleOccurrences(s1_pa,n = 3861,type = "presence-absence", extract.probability = TRUE,plot = F, replacement = T,sample.prevalence = 0.25)
 s1_T3 <- sampleOccurrences(s1_pa,n = 7744,type = "presence-absence", extract.probability = TRUE,plot = F, replacement = T, sample.prevalence = 0.25)
 #t=single range, not overlap
@@ -139,7 +139,7 @@ predsXY <- as.data.frame(envi, xy=T) %>%drop_na()
 ###Non-overlapping time scale
 
 ## s1_t1
-gam.s1t1 <- GAM_sp(modSpecies.s1t1)
+gam.s1t1 <- GAM_sp(modSpecies.s1t1) ## ELISA: is GAM_sp a function you created or a function from a package?
 prediction.gam.s1t1<- predict(gam.s1t1,newdata = predsXY, type = "response")
 df.pred.s1t1 <- data.frame(Pred=prediction.gam.s1t1)
 prediction.gam.s1t1 <- data.frame(predsXY[,1:2], df.pred.s1t1$Pred)
@@ -199,7 +199,7 @@ plot(Pred.gam.s1T3, main=" s1_T3 by GAM")
 ###Non-overlapping (t)
 
 #s1_t1
-rf.s1t1<- ranger_sp(modSpecies.s1t1)
+rf.s1t1<- ranger_sp(modSpecies.s1t1) ## ELISA: range_sp?
 Pred.rf.s1t1<- predict(
   rf.s1t1,
   data =predsXY,
@@ -283,7 +283,7 @@ plot(Pred.rf.s1T3, main= "s1_T3 by RF")
 ############EVALUATION PERFORMANCE############
 
 #####Create table of results
-auc.gam.s1.t1<- AUCFunzGAM(modSpecies.s1t1)
+auc.gam.s1.t1<- AUCFunzGAM(modSpecies.s1t1) ### ELISA: you need to explicitate all of the function you used, how did we code them?
 auc.gam.s1.t2<- AUCFunzGAM(modSpecies.s1t2)
 auc.gam.s1.t3<- AUCFunzGAM(modSpecies.s1t3)
 
